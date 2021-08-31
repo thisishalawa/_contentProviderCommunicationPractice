@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/introFragment"
+        android:icon="@android:drawable/bottom_bar"
+        android:title="Intro" />
+    <item
+        android:id="@+id/crudContactFragment"
+        android:icon="@android:drawable/bottom_bar"
+        android:title="Crud" />
+
+
+
+
+</menu>

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/matchMatch_"
     tools:context=".MainActivity">
 
     <include layout="@layout/content_main" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/matchWrap_"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        app:menu="@menu/bottom_nav" />
 </RelativeLayout>

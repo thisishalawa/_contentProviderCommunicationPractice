@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/matchMatch_"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:paddingBottom="@dimen/_40sdp"
+    tools:context=".intro.CrudContactFragment">
+
+    <LinearLayout
+        style="@style/matchMatch_"
+        android:layout_margin="@dimen/_5sdp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonLoadData"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Load Data" />
+
+        <TextView
+            android:id="@+id/textViewQueryResult"
+            style="@style/subText_"
+            android:maxLines="8" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editTextContactName"
+            style="@style/matchWrap_"
+            android:layout_margin="@dimen/_8sdp"
+            android:hint="Contact Name"
+            android:padding="@dimen/_8sdp" />
+
+        <LinearLayout
+            android:id="@+id/buttonHolderLayout"
+            style="@style/matchWrap_">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonAddContact"
+                style="@style/matchWrap_"
+                android:text="Add Contact" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonRemoveContact"
+                style="@style/matchWrap_"
+                android:text="Remove Contact" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonUpdateContact"
+                style="@style/matchWrap_"
+                android:text="Update Contact" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

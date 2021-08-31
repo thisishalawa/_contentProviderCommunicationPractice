@@ -38,13 +38,10 @@ class IntroFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        if ((activity as MainActivity).isReadContactPermissionGranted()) {
-
+        if ((activity as MainActivity).hasReadWriteContactsPermission())
             setUpListView()
-            // showContacts()
+        // showContacts()
 
-
-        }
 
     }
 

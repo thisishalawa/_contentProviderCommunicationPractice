@@ -10,4 +10,10 @@
         android:name="master.content.provider_practice.intro.IntroFragment"
         android:label="fragment_intro"
         tools:layout="@layout/fragment_intro" />
+    <fragment
+        android:id="@+id/crudContactFragment"
+        android:name="master.content.provider_practice.intro.CrudContactFragment"
+        android:label="fragment_crud_contact"
+        tools:layout="@layout/fragment_crud_contact" />
+
 </navigation>

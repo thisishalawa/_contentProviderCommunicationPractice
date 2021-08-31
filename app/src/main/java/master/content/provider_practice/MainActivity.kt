@@ -1,19 +1,41 @@
 package master.content.provider_practice
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import master.content.provider_practice.databinding.ActivityMainBinding
 
 
-var PERMISSIONS_REQUEST_READ_CONTACTS: Int = 20
+var TAG = "debug_tag"
+
+fun toastDeniedPermission(context: Context) {
+    Toast.makeText(context, "Permission Denied ..", Toast.LENGTH_SHORT).show()
+}
+
+fun toastGrantedPermission(context: Context) {
+    Toast.makeText(context, "Permission Granted ..", Toast.LENGTH_SHORT).show()
+}
+
+
+const val REQUEST_ID_MULTIPLE_PERMISSIONS = 1
+val listPermissionsNeeded: ArrayList<String> = ArrayList()
 
 class MainActivity : AppCompatActivity() {
 
+    // binding
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,59 +44,97 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        if (!isReadContactPermissionGranted())
+        // setNavHost
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+                    as NavHostFragment
+        navController = navHostFragment.findNavController()
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+
+        if (!hasReadWriteContactsPermission())
             requestPermission()
 
-    }
 
-    fun isReadContactPermissionGranted(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
     }
-
-    fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_CONTACTS),
-                PERMISSIONS_REQUEST_READ_CONTACTS
-            )
-        }
-    }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(
-                    this, "" +
-                            "permission granted", Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Until you grant the permission, we cannot display the names",
-                    Toast.LENGTH_SHORT
-                ).show();
+        when (requestCode) {
+
+            REQUEST_ID_MULTIPLE_PERMISSIONS -> {
+                Log.d(TAG, "requestPermission ..")
+
+                val perms: MutableMap<String, Int> = HashMap()
+                perms[Manifest.permission.READ_CONTACTS] = PackageManager.PERMISSION_GRANTED
+                perms[Manifest.permission.WRITE_CONTACTS] = PackageManager.PERMISSION_GRANTED
+
+                if (grantResults.isNotEmpty()) {
+                    var i = 0
+                    while (i < permissions.size) {
+                        perms[permissions[i]] = grantResults[i]
+                        i++
+                    }
+
+                    if (perms[Manifest.permission.READ_CONTACTS] == PackageManager.PERMISSION_GRANTED
+                        && perms[Manifest.permission.WRITE_CONTACTS] == PackageManager.PERMISSION_GRANTED
+                    )
+                        Log.d(TAG, "onRequestPermissionsResult: granted ..")
+                    else
+                        Log.d(TAG, "onRequestPermissionsResult: denied ..")
+
+                } else Log.d(TAG, "onRequestPermissionsResult: grantResults is Empty")
             }
         }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    /*
-    * Content Provider !
-    * share data between apps
-    *
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            listPermissionsNeeded.toTypedArray(),
+            REQUEST_ID_MULTIPLE_PERMISSIONS
+        )
+    }
 
 
-      InterProcess Communication
-      data Request  ->  Content Provider
-      data Response ->  Cursor
+     fun hasReadWriteContactsPermission(): Boolean {
+        val permissionSendMessage: Int = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_CONTACTS
+        )
+        val locationPermission =
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_CONTACTS
+            )
 
-    * */
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS);
+        }
+        if (permissionSendMessage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_CONTACTS);
+        }
+        if (listPermissionsNeeded.isNotEmpty())
+            return false
+
+        return true
+    }
 
 
 }
+/*
+* Content Provider !
+* share data between apps
+*
+
+
+  InterProcess Communication
+  data Request  ->  Content Provider
+  data Response ->  Cursor
+
+* */
