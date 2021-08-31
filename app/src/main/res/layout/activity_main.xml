@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    style="@style/matchMatch_"
+    tools:context=".MainActivity">
+
+    <include layout="@layout/content_main" />
+
+</RelativeLayout>

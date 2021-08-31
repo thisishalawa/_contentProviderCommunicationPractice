@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/matchMatch_"
+    tools:context=".intro.IntroFragment">
+
+    <LinearLayout style="@style/matchMatch_">
+
+        <TextView
+            android:id="@+id/textViewQueryResult"
+            style="@style/subText_"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/app_name" />
+
+        <ListView
+            android:id="@+id/listView"
+            style="@style/matchMatch_"
+            android:layout_margin="@dimen/_5sdp"
+             />
+    </LinearLayout>
+</LinearLayout>
