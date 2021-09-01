@@ -103,22 +103,22 @@ class MainActivity : AppCompatActivity() {
 
 
      fun hasReadWriteContactsPermission(): Boolean {
-        val permissionSendMessage: Int = ContextCompat.checkSelfPermission(
+        val permissionReadContacts: Int = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.READ_CONTACTS
         )
-        val locationPermission =
+        val permissionWriteContacts =
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.WRITE_CONTACTS
             )
 
-        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS);
-        }
-        if (permissionSendMessage != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_CONTACTS);
-        }
+        if (permissionWriteContacts != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(Manifest.permission.READ_CONTACTS)
+
+        if (permissionReadContacts != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(Manifest.permission.WRITE_CONTACTS)
+
         if (listPermissionsNeeded.isNotEmpty())
             return false
 
@@ -137,4 +137,16 @@ class MainActivity : AppCompatActivity() {
   data Request  ->  Content Provider
   data Response ->  Cursor
 
+* */
+
+/*
+*   Expose App Data  ! ContentProvider
+*   - data primaryKey
+*   - implement ContentProvider
+*   - define Proper Content-urls for data to be exposed !
+*
+*
+*     Uri Constants
+*   - Content - Authority - Path
+*
 * */
